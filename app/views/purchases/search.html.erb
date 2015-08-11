@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Searching Purchases</h1>
+
+<%= form_tag search_path, method: 'get' do%>
+  <p>
+    <%= text_field_tag :search, params[:search], placeholder: "Document..." %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+
+<% if @purchases %>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th colspan="2">Document: <%= @purchases.first.client.documento %></th>
+        <th colspan="2">Names: <%= @purchases.first.client.nombres %></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>Id</td>
+        <td>Product</td>
+        <td>Local</td>
+        <td>Price</td>
+      </tr>
+      <% suma=0 %>
+      <% @purchases.each do |purchase| %>
+        <tr>
+          <td><%= purchase.id_producto %></td>
+          <td><%= purchase.descripcion %></td>
+          <td><%= purchase.local.sede if purchase.id_sede %></td>
+          <% if purchase.precio %>
+            <% suma += purchase.precio.to_i %>
+            <td><%= purchase.precio %></td>
+          <% elsif purchase.product %>
+            <% suma += purchase.product.precio.to_i %>
+            <td><%= purchase.product.precio if purchase.product %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Total:</td>
+        <td><%= suma %></td>
+      </tr>
+    </tbody>
+  </table>
+
+<% end %>
+
+<br>
+
+

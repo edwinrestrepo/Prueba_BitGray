@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Purchases</h1>
+
+<table class="table table-bordered">
+  <thead>
+
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td>Producto</td>
+      <td>Sede</td>
+      <td>Precio</td>
+      <td colspan="3"></td>
+    </tr>
+    <% @purchases.each do |purchase| %>
+      <tr>
+        <td><%= purchase.id_producto %></td>
+        <td><%= purchase.descripcion %></td>
+        <td><%= purchase.id_sede %></td>
+        <% if purchase.precio %>
+          <td><%= purchase.precio %></td>
+        <% else %>
+          <td><%= purchase.product.precio if purchase.product %></td>
+        <% end %>
+        <td><%= link_to 'Show', purchase %></td>
+        <td><%= link_to 'Edit', edit_purchase_path(purchase) %></td>
+        <td><%= link_to 'Destroy', purchase, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Purchase', new_purchase_path %>
